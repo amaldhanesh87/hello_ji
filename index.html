@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#ff4d6d" />
 <title>Valentine 💖</title>
 
 <style>
@@ -14,6 +15,7 @@ body{
     overflow-x:hidden;
 }
 
+/* heading */
 .top-emoji{
     font-size:60px;
     margin-bottom:10px;
@@ -23,13 +25,15 @@ h1{
     font-size:28px;
 }
 
+/* message */
 #message{
-    font-size:20px;
-    margin:15px;
-    min-height:40px;
+    font-size:22px;
+    margin:20px;
+    min-height:60px;
+    font-weight:bold;
 }
 
-/* centered images */
+/* images */
 img{
     width:260px;
     max-width:90%;
@@ -37,6 +41,17 @@ img{
     margin:15px auto;
     display:none;
     box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    animation:fade 1s ease;
+}
+
+/* special final image */
+#finalImg{
+    width:220px;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:scale(0.8);}
+    to{opacity:1; transform:scale(1);}
 }
 
 /* buttons */
@@ -103,15 +118,18 @@ button{
 <body>
 
 <div class="top-emoji">🐰</div>
-
 <h1>WILL YOU BE MY VALENTINE ?</h1>
 
 <div id="message"></div>
 
+<!-- step images -->
 <img id="lotus" src="lotus.jpg">
 <img id="bouquet1" src="bouquet.jpg">
 <img id="chocolate" src="chocolate.jpg">
 <img id="bouquet2" src="bouquet2.jpg">
+
+<!-- NEW final doll image -->
+<img id="finalImg" src="doll.jpg">
 
 <div class="buttons">
 <button id="yes">YES</button>
@@ -127,11 +145,12 @@ const lotus=document.getElementById("lotus");
 const bouquet1=document.getElementById("bouquet1");
 const chocolate=document.getElementById("chocolate");
 const bouquet2=document.getElementById("bouquet2");
+const finalImg=document.getElementById("finalImg");
 
 let count=0;
 let scale=1;
 
-/* ❤️ hearts */
+/* ❤️ floating hearts */
 setInterval(()=>{
     const h=document.createElement("div");
     h.innerText="❤️";
@@ -169,14 +188,16 @@ function heartBreak(x,y){
     }
 }
 
+/* hide all images */
 function hideImages(){
     lotus.style.display="none";
     bouquet1.style.display="none";
     chocolate.style.display="none";
     bouquet2.style.display="none";
+    finalImg.style.display="none";
 }
 
-/* NEW combined steps (text + image together) */
+/* steps */
 const steps=[
 {t:"PLEASE 🥺"},
 {t:"SAIE 😁🤗"},
@@ -189,14 +210,13 @@ const steps=[
 {t:"EK TRY MAARKE DEKHO 🙂"}
 ];
 
+/* NO button */
 no.onclick=()=>{
-
     const rect=no.getBoundingClientRect();
     heartBreak(rect.left+rect.width/2, rect.top);
 
     count++;
-
-    scale+=0.08;
+    scale+=0.15;
     yes.style.transform=`scale(${scale})`;
 
     const x=Math.random()*12-6;
@@ -206,24 +226,24 @@ no.onclick=()=>{
     hideImages();
 
     const step=steps[count-1];
-
     if(!step){
-        no.style.opacity="0";
-setTimeout(()=>no.style.display="none",300);
+        no.style.display="none";
         return;
     }
 
     msg.innerText=step.t;
-
-    if(step.img){
-        step.img.style.display="block";
-    }
+    if(step.img) step.img.style.display="block";
 };
 
+/* YES button */
 yes.onclick=()=>{
     hideImages();
     confetti();
-    msg.innerText="FINALLY A YES 🤗! THANK YOU FOR BEING MY VALENTINE, Ms.SAILEE KHAMBLE,   ❣️SAIE❣️ ,  MY PINEAPPLE 🍍😘";
+
+    msg.innerText="FINALLY A YES 🤗! THANK YOU FOR BEING MY VALENTINE, Ms. SAILEE KHAMBLE, ❣️SAIE❣️ , MY PINEAPPLE 🍍😘";
+
+    finalImg.style.display="block";
+
     yes.style.display="none";
     no.style.display="none";
 };
